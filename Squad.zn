@@ -1,0 +1,99 @@
+//! zinc
+    library Squad {
+        unit u;
+        location loc;
+        group g = CreateGroup();
+
+        function CreateUnitAroundPoint(player p, integer uid, real x, real y) {
+            u = CreateUnit(p, uid, GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(0, 360));
+
+            SetUnitOwner( u, Player(GetPlayerId(p) + 12), false );
+
+            SetUnitUserData( u, udg_Units );
+            GroupAddUnit(udg_Squad[udg_Units], u);
+            GroupAddUnit(udg_SqUniNoCommanderr[udg_Units], u);
+
+            SetUnitUseFood(u, false);
+            loc = GetUnitRallyPoint(GetTriggerUnit());
+
+            IssuePointOrderById(u, 851983/*attack*/, GetLocationX(loc), GetLocationY(loc));
+            RemoveLocation(loc);
+        }
+
+        function AddCommander(unit cu) {
+            SetUnitUserData(cu, udg_Units);
+            GroupAddUnit(udg_Squad[udg_Units], cu);
+            GroupAddUnit(udg_SqUnCOMMANDER[udg_Units], cu);
+            GroupAddUnit(udg_Commanders, cu);
+        }
+
+        public function CreateCommanderUnit(unit cu) {
+            integer i;
+            integer uid = GetUnitTypeId(cu);
+            real x = GetUnitX(cu), y = GetUnitY(cu);
+            player p = GetOwningPlayer(cu);
+
+            ////////////////////     MAGES
+
+            if ( uid == 'nwzg' ) { //////////////////////////////////////////// Маг Отступник к
+                AddCommander(cu);
+                for (1 <= i <= 1) {
+                    CreateUnitAroundPoint(p, 'n00Y', x, y);
+                }
+                for (1 <= i <= 5) {
+                    CreateUnitAroundPoint(p, 'n00F', x, y);
+                }
+                for (1 <= i <= 5) {
+                    CreateUnitAroundPoint(p, 'n00E', x, y);
+                }
+                udg_Units += 1;
+            }
+
+            if ( uid == 'nwzd' ) { //////////////////////////////////////////// Черный Маг к
+                AddCommander(cu);
+                for (1 <= i <= 2) {
+                    CreateUnitAroundPoint(p, 'n00J', x, y);
+                }
+                for (1 <= i <= 4) {
+                    CreateUnitAroundPoint(p, 'n00G', x, y);
+                }
+                for (1 <= i <= 5) {
+                    CreateUnitAroundPoint(p, 'n00F', x, y);
+                }
+                udg_Units += 1;
+            }
+
+            ////////////////////     HERETICS
+
+            if ( uid == 'nhfp' ) { //////////////////////////////////////////// Отступник к
+                AddCommander(cu);
+                for (1 <= i <= 11) {
+                    CreateUnitAroundPoint(p, 'n00K', x, y);
+                }
+                udg_Units += 1;
+            }
+        }
+
+
+        function onInit() {
+            GroupClear(g);
+            GroupEnumUnitsInRect(g, GetWorldBounds(), null);
+            ForGroup(g, function() {
+                udg_TriggerinUnit = GetEnumUnit();
+                CreateCommanderUnit(udg_TriggerinUnit);
+                ///
+                TriggerExecute( gg_trg_A_HUMAN_SQ );
+                TriggerExecute( gg_trg_B_ORCS_SQ );
+                TriggerExecute( gg_trg_C_UNDEAD_SQ );
+                TriggerExecute( gg_trg_D_NIGHT_ELVES_SQ );
+                TriggerExecute( gg_trg_aB_GOLEMS_SQ );
+                TriggerExecute( gg_trg_aC_UNDEGROUND_MONSTERS_SQ );
+                TriggerExecute( gg_trg_aD_WATER_MONSTERS_SQ );
+                TriggerExecute( gg_trg_aE_OGRES_TROLLS_GNOLS_SQ );
+                TriggerExecute( gg_trg_aF_DRAGONS_SQ );
+                TriggerExecute( gg_trg_aG_SKELETONS_REWENANTS_SQ );
+                TriggerExecute( gg_trg_aH_MUTANTS_THINGS_SQ );
+            });
+        }
+    }
+//! endzinc
