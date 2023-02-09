@@ -1,86 +1,81 @@
 //! zinc
     library Squad {
-        unit u;
+        unit child;
+        real x, y;
         location loc;
-        group g = CreateGroup();
+        group g = CreateGroup(), parents = CreateGroup();
+        hashtable ht;
+        integer index, parentId;
+        player parentOwner;
+    
+        public function SetSquadParent(unit parent) {
+            integer i, k, count, childId, childCount;
+            
+            parentId = GetUnitTypeId(parent);
 
-        function CreateUnitAroundPoint(player p, integer uid, real x, real y) {
-            u = CreateUnit(p, uid, GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(0, 360));
-
-            SetUnitOwner( u, Player(GetPlayerId(p) + 12), false );
-
-            SetUnitUserData( u, udg_Units );
-            GroupAddUnit(udg_Squad[udg_Units], u);
-            GroupAddUnit(udg_SqUniNoCommanderr[udg_Units], u);
-
-            SetUnitUseFood(u, false);
-            loc = GetUnitRallyPoint(GetTriggerUnit());
-
-            IssuePointOrderById(u, 851983/*attack*/, GetLocationX(loc), GetLocationY(loc));
-            RemoveLocation(loc);
-        }
-
-        function AddCommander(unit cu) {
-            SetUnitUserData(cu, udg_Units);
-            GroupAddUnit(udg_Squad[udg_Units], cu);
-            GroupAddUnit(udg_SqUnCOMMANDER[udg_Units], cu);
-            GroupAddUnit(udg_Commanders, cu);
-        }
-
-        public function CreateCommanderUnit(unit cu) {
-            integer i;
-            integer uid = GetUnitTypeId(cu);
-            real x = GetUnitX(cu), y = GetUnitY(cu);
-            player p = GetOwningPlayer(cu);
-
-            ////////////////////     MAGES
-
-            if ( uid == 'nwzg' ) { //////////////////////////////////////////// Маг Отступник к
-                AddCommander(cu);
-                for (1 <= i <= 1) {
-                    CreateUnitAroundPoint(p, 'n00Y', x, y);
-                }
-                for (1 <= i <= 5) {
-                    CreateUnitAroundPoint(p, 'n00F', x, y);
-                }
-                for (1 <= i <= 5) {
-                    CreateUnitAroundPoint(p, 'n00E', x, y);
-                }
-                udg_Units += 1;
+            if (!HaveSavedInteger(ht, parentId, 0)) {
+                return;
             }
 
-            if ( uid == 'nwzd' ) { //////////////////////////////////////////// Черный Маг к
-                AddCommander(cu);
-                for (1 <= i <= 2) {
-                    CreateUnitAroundPoint(p, 'n00J', x, y);
-                }
-                for (1 <= i <= 4) {
-                    CreateUnitAroundPoint(p, 'n00G', x, y);
-                }
-                for (1 <= i <= 5) {
-                    CreateUnitAroundPoint(p, 'n00F', x, y);
-                }
-                udg_Units += 1;
-            }
+            x = GetUnitX(parent);
+            y = GetUnitY(parent);
+            parentOwner = GetOwningPlayer(parent);
 
-            ////////////////////     HERETICS
+            GroupAddUnit(parents, parent);
 
-            if ( uid == 'nhfp' ) { //////////////////////////////////////////// Отступник к
-                AddCommander(cu);
-                for (1 <= i <= 11) {
-                    CreateUnitAroundPoint(p, 'n00K', x, y);
+            count = LoadInteger(ht, parentId, 0) / 2;
+            for (1 <= i <= count) {
+                childId = LoadInteger(ht, parentId, i * 2);
+                childCount = LoadInteger(ht, parentId, i * 2 + 1);
+                for (1 <= k <= childCount) {
+                    child = CreateUnit(parentOwner, childId, GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(0, 360));
+                    
+                    SetUnitOwner( child, Player(GetPlayerId(parentOwner) + 12), false );
+        
+                    SetUnitUseFood(child, false);
+                    loc = GetUnitRallyPoint(parent);
+        
+                    IssuePointOrderById(child, 851983/*attack*/, GetLocationX(loc), GetLocationY(loc));
+                    RemoveLocation(loc);
                 }
-                udg_Units += 1;
             }
         }
 
+        function addParent(integer id) {
+            index = 0;
+            parentId = id;
+        };
+
+        function addChild(integer id, integer count) {
+            index += 2;
+            SaveInteger(ht, parentId, 0, index);
+            SaveInteger(ht, parentId, index, id);
+            SaveInteger(ht, parentId, index + 1, count);
+        }
 
         function onInit() {
+            // MAGES
+            addParent('nwzg'); // Маг Отступник к
+            addChild('n00Y', 1);
+            addChild('n00F', 5);
+            addChild('n00E', 5);
+
+            addParent('nwzd'); // Черный Маг к
+            addChild('n00J', 2);
+            addChild('n00G', 4);
+            addChild('n00F', 5);
+
+            // HERETICS
+            addParent('nhfp'); // Отступник к
+            addChild('n00K', 11);
+
+
+            // add initial values
             GroupClear(g);
             GroupEnumUnitsInRect(g, GetWorldBounds(), null);
             ForGroup(g, function() {
                 udg_TriggerinUnit = GetEnumUnit();
-                CreateCommanderUnit(udg_TriggerinUnit);
+                SetSquadParent(udg_TriggerinUnit);
                 ///
                 TriggerExecute( gg_trg_A_HUMAN_SQ );
                 TriggerExecute( gg_trg_B_ORCS_SQ );
