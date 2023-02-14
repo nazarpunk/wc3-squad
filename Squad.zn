@@ -44,7 +44,7 @@
         function addParent(integer id) {
             index = 0;
             parentId = id;
-        };
+        }
 
         function addChild(integer id, integer count) {
             index += 2;
