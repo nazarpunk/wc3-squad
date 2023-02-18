@@ -42,7 +42,487 @@
                     IssuePointOrderById(child, 851983/*attack*/, GetLocationX(loc), GetLocationY(loc));
                     RemoveLocation(loc);
                 }
+            }//! zinc
+    library Squad {
+        unit child;
+        real x, y;
+        location loc;
+        group g = CreateGroup(), parents = CreateGroup();
+        hashtable ht;
+        integer index, parentId;
+        player parentOwner;
+    
+        public function SetSquadParent(unit parent) {
+            integer i, k, count, childId, childCount;
+            
+            parentId = GetUnitTypeId(parent);
+
+            if (!HaveSavedInteger(ht, parentId, 0)) {
+                return;
             }
+
+            x = GetUnitX(parent);
+            y = GetUnitY(parent);
+            parentOwner = GetOwningPlayer(parent);
+
+            GroupAddUnit(parents, parent);
+
+            count = LoadInteger(ht, parentId, 0) / 2;
+            for (1 <= i <= count) {
+                childId = LoadInteger(ht, parentId, i * 2);
+                childCount = LoadInteger(ht, parentId, i * 2 + 1);
+                for (1 <= k <= childCount) {
+                    child = CreateUnit(parentOwner, childId, GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(0, 360));
+                    
+                    SetUnitOwner( child, Player(GetPlayerId(parentOwner) + 12), false );
+        
+                    SetUnitUseFood(child, false);
+                    loc = GetUnitRallyPoint(parent);
+        
+                    IssuePointOrderById(child, 851983/*attack*/, GetLocationX(loc), GetLocationY(loc));
+                    RemoveLocation(loc);
+                }
+            }
+        }
+
+        function addParent(integer id) {
+            index = 0;
+            parentId = id;
+        }
+
+        function addChild(integer id, integer count) {
+            index += 2;
+            SaveInteger(ht, parentId, 0, index);
+            SaveInteger(ht, parentId, index, id);
+            SaveInteger(ht, parentId, index + 1, count);
+        }
+
+        function onInit() {
+            
+            // HUMAN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+                            
+            addParent('h001'); // Пехотинец. к
+            addChild('h002', 11); // Пехотинец.
+
+            addParent('n000'); // Лучница. к
+            addChild('n001', 11); // Лучница.
+            
+            addParent('h003'); // Рыцарь. к
+            addChild('h004', 11); // Рыцарь.
+            
+            addParent('h00E'); // Рыцарь Паладин. к
+            addChild('h00D', 11); // Рыцарь Паладин.
+            
+            addParent('h012'); // Орудийный расчет. к
+            addChild('h013', 11); // Орудийный расчет.
+
+            addParent('h014'); // Жрец. к
+            addChild('h016', 11); // Жрец.
+            
+            addParent('h018'); // Волшебница. к
+            addChild('h019', 11); // Волшебница.
+            
+            addParent('h01B'); // Грифон. к
+            addChild('h01C', 11); // Грифон.
+            
+            addParent('h01G'); // Ястреб. к
+            addChild('h01H', 11); // Ястреб.
+            
+            addParent('h01E'); // Вертолет. к
+            addChild('h01F', 11); // Вертолет.
+            
+            // WC3
+            // WC OTHER
+            
+            addParent('h03G'); // Пехотинец(4) к
+            addChild('h040', 4); // Пехотинец(4.1)
+            addChild('h041', 4); // Пехотинец(4.2)
+            addChild('h042', 3); // Пехотинец(4.3)
+            
+            // GIL
+            
+            addParent('h01V'); // Пехотинец(gil) к
+            addChild('h01Z', 11); // Пехотинец(gil)
+            
+            addParent('h045'); // Паладин(gil) к
+            addChild('h01Y', 11); // Паладин(gil)
+            
+            // ORCS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+                            
+            addParent('o000'); // Грант. к
+            addChild('o007', 11); // Грант.
+            
+            addParent('o00E'); // Тапорометатель. к
+            addChild('o00F', 11); // Тапорометатель.
+            
+            addParent('n011'); // Колдун. к
+            addChild('n014', 11); // Колдун.
+            
+            addParent('o010'); // Шаман. к
+            addChild('o01R', 11); // Шаман.
+            
+            addParent('o015'); // Волчий всадник. к
+            addChild('o00O', 11); // Волчий всадник.
+            
+            addParent('n01N'); // Огр. к
+            addChild('n01Q', 11); // Огр.
+            
+            addParent('n01O'); // Огр маг. к
+            addChild('n01P', 11); // Огр маг.
+            
+            addParent('n02J'); // Крассный дракон. к
+            addChild('n02L', 2); // Крассный дракон.
+            
+            addParent('n04U'); // Дирижабль. к
+            addChild('n04V', 2); // Дирижабль.
+            
+            addParent('n07K'); // Подрывная бригада. к
+            addChild('n07L', 11); // Подрывная бригада.
+            
+            // OTHERS ORCS.
+            
+            addParent('o01G'); // Грант (stormgrade) к
+            addChild('o01H', 11); // Грант (stormgrade)
+            
+            addParent('o017'); // Грант (stormgrade undead) к
+            addChild('o01F', 11); // Грант (stormgrade undead)
+            
+            addParent('o008'); // Тапорометатель (орк) к
+            addChild('o009', 11); // Тапорометатель (орк)
+            
+            addParent('o00I'); // Грант II к
+            addChild('o00J', 11); // Грант II
+            
+            addParent('o002'); // Грант (wc1) к
+            addChild('o001', 11); // Грант (wc1)
+            
+            addParent('o00L'); // Грант (BlackRock) к
+            addChild('o02I', 11); // Грант (BlackRock)
+            
+            addParent('o00A'); // Грант (Armored) к
+            addChild('o00B', 11); // Грант (Armored)
+            
+            addParent('o00C'); // Грант (FrostWolf) к
+            addChild('o00D', 11); // Грант (FrostWolf)
+            
+            addParent('o01I'); // Грант (FrostWolf2) к
+            addChild('o01J', 11); // Грант (FrostWolf2)
+            
+            addParent('o00M'); // Грант (moknathal) к
+            addChild('o014', 11); // Грант (moknathal)
+            
+            // UNDEAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+            
+            addParent('u002'); // Вурдалак. к
+            addChild('u003', 11); // Вурдалак.
+            
+            addParent('u01P'); // Могильщик. к
+            addChild('u01O', 11); // Могильщик.
+            
+            addParent('u01R'); // Закопавшийся Могильщик. к
+            addChild('u01Q', 11); // Закопавшийся Могильщик.
+            
+            addParent('u007'); // Мясник. к
+            addChild('u006', 2); // Мясник.
+            addChild('u003', 9); // Вурдалак.
+            
+            addParent('u004'); // Труповозка. к
+            addChild('u005', 2); // Труповозка.
+            addChild('u003', 9); // Вурдалак.
+            
+            addParent('u008'); // Горгулья. к
+            addChild('u009', 11); // Горгулья.
+            
+            addParent('u01M'); // Каменная Горгулья. к
+            addChild('u01N', 11); // Каменная Горгулья.
+            
+            addParent('u00C'); // Баньши. к
+            addChild('u00D', 11); // Баньши.
+            
+            addParent('u00A'); // Некромант. к
+            addChild('u00B', 11); // Некромант.
+            
+            addParent('u00R'); // Обсидановая Статуя. к
+            addChild('u00V', 11); // Обсидановая Статуя.
+            
+            addParent('u00T'); // Сфинкс. к
+            addChild('u00X', 11); // Сфинкс.
+            
+            addParent('u01A'); // Ледяной змей. к
+            addChild('u01B', 2); // Ледяной змей.
+            
+            // OTHER
+            
+            addParent('u00P'); // Пехотинец зомби 1 к
+            addChild('u00Q', 11); // Пехотинец зомби 1
+            
+            addParent('u00W'); // Пехотинец зомби 2 к
+            addChild('u00S', 11); // Пехотинец зомби 2
+            
+            addParent('u00O'); // Пехотинец зомби 3 к
+            addChild('u00U', 11); // Пехотинец зомби 3
+            
+            addParent('u014'); // Скелет пехотинец 1 к
+            addChild('u015', 11); // Скелет пехотинец 1
+            
+            addParent('u00Y'); // Пехотинец зомби смешанный к
+            addChild('u00Q', 5); // Пехотинец зомби 1
+            addChild('u00S', 6); // Пехотинец зомби 2
+            
+            addParent('n01U'); // Зомби к
+            addChild('n031', 1); // Зомби 1
+            addChild('n04M', 2); // Зомби 2
+            addChild('n04O', 2); // Зомби 3
+            addChild('n01R', 2); // Зомби 4
+            addChild('n01S', 2); // Зомби 5
+            addChild('n01T', 2); // Зомби 6
+            
+            // NIGHT ELVES////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+            
+            // WCIII
+            
+            addParent('earc'); // Лучница. к
+            addChild('e000', 11); // Лучница.
+            
+            addParent('esen'); // Охотница. к
+            addChild('e001', 11); // Охотница.
+            
+            addParent('edry'); // Дриада. к
+            addChild('e002', 11); // Дриада.
+            
+            // NETRALS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            // BANDITS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // BANDITS
+            
+            addParent('nrog'); // Разбойник к
+            addChild('n004', 11); // Разбойник 
+            
+            addParent('nban'); // Разбойник к
+            addChild('n002', 11); // Разбойник
+            
+            addParent('nbrg'); // Грабитель к
+            addChild('n003', 11); // Грабитель
+            
+            addParent('nass'); // Убийца к
+            addChild('n005', 11); // Убийца
+            
+            addParent('nenf'); // Мародер к
+            addChild('n006', 11); // Мародер
+            
+            addParent('nbld'); // Король Воров к
+            addChild('n007', 11); // Король Воров
+            
+            // MAGES
+            
+            addParent('nwiz'); // Ученик волшебника к
+            addChild('n00E', 11); // Ученик волшебника
+            
+            addParent('nwzr'); // Маг Разбойник к
+            addChild('n007', 11); // Маг Разбойник
+            
+            
+            addParent('nwzg'); // Маг Отступник к
+            addChild('n00Y', 1); // Маг Отступник подпитыватель
+            addChild('n00F', 5); // Маг Отступник
+            addChild('n00E', 5); // Маг Разбойник
+
+            addParent('nwzd'); // Черный Маг к
+            addChild('n00J', 2); // Свита Черного Мага
+            addChild('n00G', 4); // Свита Черного Мага
+            addChild('n00F', 5); // Маг Отступник
+
+            // HERETICS
+            
+            addParent('nhfp'); // Отступник к
+            addChild('n00K', 11); // Отступник
+            
+            addParent('nhds'); // Предатель к
+            addChild('n00L', 11); // Предатель
+            
+            addParent('nhhr'); // Еретик к
+            addChild('n00M', 11); // Еретик
+
+            // GOLEMS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('ngrk'); // Глиняный голем к
+            addChild('n00H', 11); // Глиняный голем
+            
+            addParent('ngst'); // Каменный голем к
+            addChild('n00I', 2); // Каменный голем
+            
+            // KOBOLDS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nkob'); // Кобольд к
+            addChild('n00Q', 11); // Кобольд
+            
+            addParent('nkog'); // Кобольд рудознатец к
+            addChild('n00R', 11); // Кобольд рудознатец
+            
+            addParent('nkot'); // Кобольд рудокоп к
+            addChild('n00S', 11); // Кобольд рудокоп
+            
+            addParent('nkol'); // Кобольд маркшейдер к
+            addChild('n00T', 9); // Кобольд маркшейдер
+            addChild('n00U', 1); // Кобольд защитник 1
+            addChild('n00X', 1); // Кобольд защитник 2
+            
+            // MORLOCKS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nmrl'); // Ядовитый морлок к
+            addChild('n00Z', 11); // Ядовитый морлок
+            
+            addParent('nmrr'); // Морлок охотник к
+            addChild('n010', 11); // Морлок охотник
+            
+            addParent('nmrm'); // Морлок следопыт к
+            addChild('n013', 11); // Морлок следопыт
+            
+            // OGRES////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nogr'); // Огр воин к
+            addChild('n015', 11); // Огр воин
+            
+            addParent('nomg'); // Огр маг к
+            addChild('n017', 5); // Огр маг
+            addChild('n015', 6); // Огр воин
+            
+            addParent('nogm'); // Огр солдат к
+            addChild('n018', 3); // Огр солдат
+            addChild('n017', 4); // Огр маг
+            addChild('n015', 4); // Огр воин
+            
+            addParent('nogl'); // Командир огров к
+            addChild('n019', 2); // Огр телохранитель 
+            addChild('n018', 2); // Огр солдат
+            addChild('n017', 2); // Огр маг
+            addChild('n015', 5); // Огр воин
+            
+            // TROLLS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nfsp'); // Жрец лесных троллей к
+            addChild('n01A', 11); // Жрец лесных троллей
+            
+            addParent('nftr'); // Лесной тролль к
+            addChild('n01B', 11); // Лесной тролль
+            
+            addParent('nftt'); // Лесной тролль охотник к
+            addChild('n01D', 11); // Лесной тролль охотник
+            
+            addParent('nftb'); // Лесной тролль берсерк к
+            addChild('n01E', 11); // Лесной тролль берсерк
+            
+            addParent('nfsh'); // Шаман лесных троллей к
+            addChild('n01F', 5); // Шаман лесных троллей
+            addChild('n01A', 6); // Жрец лесных троллей
+            
+            addParent('nftk'); // Вождь лесных троллей к
+            addChild('n01G', 2); // Страж лесных троллей
+            addChild('n01E', 5); // Лесной тролль берсерк
+            addChild('n01F', 4); // Шаман лесных троллей
+            
+            // GNOLLS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('ngna'); // Гнолл карманник к
+            addChild('n01J', 11); // Гнолл карманник
+            
+            addParent('ngns'); // Гнолл убийца к
+            addChild('n01I', 11); // Гнолл убийца
+            
+            addParent('ngno'); // Гнолл к
+            addChild('n01H', 11); // Гнолл
+            
+            addParent('ngnb'); // Гнолл громила к
+            addChild('n01K', 11); // Гнолл громила
+            
+            addParent('ngnw'); // Гнолл тюремщик к
+            addChild('n01L', 11); // Гнолл тюремщик
+            
+            addParent('ngnv'); // Гнолл надзиратель к
+            addChild('n01M', 11); // Гнолл телохранитель
+            
+            // DRAGONS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nrdk'); // Красный дракончик к
+            addChild('n01V', 11); // Красный дракончик
+            
+            addParent('nrdr'); // Красный дракон к
+            addChild('n021', 2); // Красный дракон
+            
+            addParent('nbdr'); //  Черный дракончик к
+            addChild('n01W', 11); // Черный дракончик
+            
+            addParent('nbdk'); // Черный дракон к
+            addChild('n022', 2); // Черный дракон
+            
+            addParent('nbzw'); //  Бронзовый дракончик к
+            addChild('n01X', 11); // Бронзовый дракончик
+            
+            addParent('nbzk'); // Бронзовый дракон к
+            addChild('n023', 2); // Бронзовый дракон
+            
+            addParent('ngrw'); //  Зеленый дракончик к
+            addChild('n01Y', 11); // Зеленый дракончик
+            
+            addParent('ngdk'); // Зеленый дракон к
+            addChild('n024', 2); // Зеленый дракон
+            
+            addParent('nadw'); //  Синий дракончик к
+            addChild('n01Z', 11); // Синий дракончик
+            
+            addParent('nadk'); // Синий дракон к
+            addChild('n025', 2); // Синий дракон
+            
+            addParent('nnht'); //  Адский дракончик к
+            addChild('n020', 11); // Адский дракончик
+            
+            addParent('nndk'); // Адский дракон к
+            addChild('n026', 2); // Адский дракон
+            
+            //  SKELETONS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nska'); // Скелет лучник к
+            addChild('n027', 11); // Скелет лучник
+            
+            addParent('nskm'); // Скелет снайпер к
+            addChild('n029', 11); // Скелет снайпер
+            
+            addParent('nskf'); // Адский лучник к
+            addChild('n028', 11); // Адский лучник
+            
+            addParent('nskg'); // Гиганский скелет воин к
+            addChild('n02A', 5); // Гиганский скелет воин
+            addChild('n02B', 6); // Гиганский скелет воин
+            
+            //  MUTANTS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('n02E'); // Даларанский мутант малый к
+            addChild('n02C', 11); // Даларанский мутант малый
+            
+            addParent('n02I'); // Даларанский мутант средний к
+            addChild('n02D', 11); // Даларанский мутант средний
+            
+            addParent('ndmu'); // Даларанский мутант альфа к
+            addChild('n02D', 11); // Даларанский мутант средний
+            
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            // add initial values
+            GroupClear(g);
+            GroupEnumUnitsInRect(g, GetWorldBounds(), null);
+            ForGroup(g, function() {
+                udg_TriggerinUnit = GetEnumUnit();
+                SetSquadParent(udg_TriggerinUnit);
+                ///
+                
+            });
+        }
+    }
+//! endzinc
         }
 
         function addParent(integer id) {
@@ -1047,7 +1527,487 @@
                 udg_TriggerinUnit = GetEnumUnit();
                 SetSquadParent(udg_TriggerinUnit);
                 ///
+               //! zinc
+    library Squad {
+        unit child;
+        real x, y;
+        location loc;
+        group g = CreateGroup(), parents = CreateGroup();
+        hashtable ht;
+        integer index, parentId;
+        player parentOwner;
+    
+        public function SetSquadParent(unit parent) {
+            integer i, k, count, childId, childCount;
+            
+            parentId = GetUnitTypeId(parent);
+
+            if (!HaveSavedInteger(ht, parentId, 0)) {
+                return;
+            }
+
+            x = GetUnitX(parent);
+            y = GetUnitY(parent);
+            parentOwner = GetOwningPlayer(parent);
+
+            GroupAddUnit(parents, parent);
+
+            count = LoadInteger(ht, parentId, 0) / 2;
+            for (1 <= i <= count) {
+                childId = LoadInteger(ht, parentId, i * 2);
+                childCount = LoadInteger(ht, parentId, i * 2 + 1);
+                for (1 <= k <= childCount) {
+                    child = CreateUnit(parentOwner, childId, GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(0, 360));
+                    
+                    SetUnitOwner( child, Player(GetPlayerId(parentOwner) + 12), false );
+        
+                    SetUnitUseFood(child, false);
+                    loc = GetUnitRallyPoint(parent);
+        
+                    IssuePointOrderById(child, 851983/*attack*/, GetLocationX(loc), GetLocationY(loc));
+                    RemoveLocation(loc);
+                }
+            }
+        }
+
+        function addParent(integer id) {
+            index = 0;
+            parentId = id;
+        }
+
+        function addChild(integer id, integer count) {
+            index += 2;
+            SaveInteger(ht, parentId, 0, index);
+            SaveInteger(ht, parentId, index, id);
+            SaveInteger(ht, parentId, index + 1, count);
+        }
+
+        function onInit() {
+            
+            // HUMAN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+                            
+            addParent('h001'); // Пехотинец. к
+            addChild('h002', 11); // Пехотинец.
+
+            addParent('n000'); // Лучница. к
+            addChild('n001', 11); // Лучница.
+            
+            addParent('h003'); // Рыцарь. к
+            addChild('h004', 11); // Рыцарь.
+            
+            addParent('h00E'); // Рыцарь Паладин. к
+            addChild('h00D', 11); // Рыцарь Паладин.
+            
+            addParent('h012'); // Орудийный расчет. к
+            addChild('h013', 11); // Орудийный расчет.
+
+            addParent('h014'); // Жрец. к
+            addChild('h016', 11); // Жрец.
+            
+            addParent('h018'); // Волшебница. к
+            addChild('h019', 11); // Волшебница.
+            
+            addParent('h01B'); // Грифон. к
+            addChild('h01C', 11); // Грифон.
+            
+            addParent('h01G'); // Ястреб. к
+            addChild('h01H', 11); // Ястреб.
+            
+            addParent('h01E'); // Вертолет. к
+            addChild('h01F', 11); // Вертолет.
+            
+            // WC3
+            // WC OTHER
+            
+            addParent('h03G'); // Пехотинец(4) к
+            addChild('h040', 4); // Пехотинец(4.1)
+            addChild('h041', 4); // Пехотинец(4.2)
+            addChild('h042', 3); // Пехотинец(4.3)
+            
+            // GIL
+            
+            addParent('h01V'); // Пехотинец(gil) к
+            addChild('h01Z', 11); // Пехотинец(gil)
+            
+            addParent('h045'); // Паладин(gil) к
+            addChild('h01Y', 11); // Паладин(gil)
+            
+            // ORCS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+                            
+            addParent('o000'); // Грант. к
+            addChild('o007', 11); // Грант.
+            
+            addParent('o00E'); // Тапорометатель. к
+            addChild('o00F', 11); // Тапорометатель.
+            
+            addParent('n011'); // Колдун. к
+            addChild('n014', 11); // Колдун.
+            
+            addParent('o010'); // Шаман. к
+            addChild('o01R', 11); // Шаман.
+            
+            addParent('o015'); // Волчий всадник. к
+            addChild('o00O', 11); // Волчий всадник.
+            
+            addParent('n01N'); // Огр. к
+            addChild('n01Q', 11); // Огр.
+            
+            addParent('n01O'); // Огр маг. к
+            addChild('n01P', 11); // Огр маг.
+            
+            addParent('n02J'); // Крассный дракон. к
+            addChild('n02L', 2); // Крассный дракон.
+            
+            addParent('n04U'); // Дирижабль. к
+            addChild('n04V', 2); // Дирижабль.
+            
+            addParent('n07K'); // Подрывная бригада. к
+            addChild('n07L', 11); // Подрывная бригада.
+            
+            // OTHERS ORCS.
+            
+            addParent('o01G'); // Грант (stormgrade) к
+            addChild('o01H', 11); // Грант (stormgrade)
+            
+            addParent('o017'); // Грант (stormgrade undead) к
+            addChild('o01F', 11); // Грант (stormgrade undead)
+            
+            addParent('o008'); // Тапорометатель (орк) к
+            addChild('o009', 11); // Тапорометатель (орк)
+            
+            addParent('o00I'); // Грант II к
+            addChild('o00J', 11); // Грант II
+            
+            addParent('o002'); // Грант (wc1) к
+            addChild('o001', 11); // Грант (wc1)
+            
+            addParent('o00L'); // Грант (BlackRock) к
+            addChild('o02I', 11); // Грант (BlackRock)
+            
+            addParent('o00A'); // Грант (Armored) к
+            addChild('o00B', 11); // Грант (Armored)
+            
+            addParent('o00C'); // Грант (FrostWolf) к
+            addChild('o00D', 11); // Грант (FrostWolf)
+            
+            addParent('o01I'); // Грант (FrostWolf2) к
+            addChild('o01J', 11); // Грант (FrostWolf2)
+            
+            addParent('o00M'); // Грант (moknathal) к
+            addChild('o014', 11); // Грант (moknathal)
+            
+            // UNDEAD////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+            
+            addParent('u002'); // Вурдалак. к
+            addChild('u003', 11); // Вурдалак.
+            
+            addParent('u01P'); // Могильщик. к
+            addChild('u01O', 11); // Могильщик.
+            
+            addParent('u01R'); // Закопавшийся Могильщик. к
+            addChild('u01Q', 11); // Закопавшийся Могильщик.
+            
+            addParent('u007'); // Мясник. к
+            addChild('u006', 2); // Мясник.
+            addChild('u003', 9); // Вурдалак.
+            
+            addParent('u004'); // Труповозка. к
+            addChild('u005', 2); // Труповозка.
+            addChild('u003', 9); // Вурдалак.
+            
+            addParent('u008'); // Горгулья. к
+            addChild('u009', 11); // Горгулья.
+            
+            addParent('u01M'); // Каменная Горгулья. к
+            addChild('u01N', 11); // Каменная Горгулья.
+            
+            addParent('u00C'); // Баньши. к
+            addChild('u00D', 11); // Баньши.
+            
+            addParent('u00A'); // Некромант. к
+            addChild('u00B', 11); // Некромант.
+            
+            addParent('u00R'); // Обсидановая Статуя. к
+            addChild('u00V', 11); // Обсидановая Статуя.
+            
+            addParent('u00T'); // Сфинкс. к
+            addChild('u00X', 11); // Сфинкс.
+            
+            addParent('u01A'); // Ледяной змей. к
+            addChild('u01B', 2); // Ледяной змей.
+            
+            // OTHER
+            
+            addParent('u00P'); // Пехотинец зомби 1 к
+            addChild('u00Q', 11); // Пехотинец зомби 1
+            
+            addParent('u00W'); // Пехотинец зомби 2 к
+            addChild('u00S', 11); // Пехотинец зомби 2
+            
+            addParent('u00O'); // Пехотинец зомби 3 к
+            addChild('u00U', 11); // Пехотинец зомби 3
+            
+            addParent('u014'); // Скелет пехотинец 1 к
+            addChild('u015', 11); // Скелет пехотинец 1
+            
+            addParent('u00Y'); // Пехотинец зомби смешанный к
+            addChild('u00Q', 5); // Пехотинец зомби 1
+            addChild('u00S', 6); // Пехотинец зомби 2
+            
+            addParent('n01U'); // Зомби к
+            addChild('n031', 1); // Зомби 1
+            addChild('n04M', 2); // Зомби 2
+            addChild('n04O', 2); // Зомби 3
+            addChild('n01R', 2); // Зомби 4
+            addChild('n01S', 2); // Зомби 5
+            addChild('n01T', 2); // Зомби 6
+            
+            // NIGHT ELVES////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // WC.
+            
+            // WCIII
+            
+            addParent('earc'); // Лучница. к
+            addChild('e000', 11); // Лучница.
+            
+            addParent('esen'); // Охотница. к
+            addChild('e001', 11); // Охотница.
+            
+            addParent('edry'); // Дриада. к
+            addChild('e002', 11); // Дриада.
+            
+            // NETRALS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            // BANDITS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // BANDITS
+            
+            addParent('nrog'); // Разбойник к
+            addChild('n004', 11); // Разбойник 
+            
+            addParent('nban'); // Разбойник к
+            addChild('n002', 11); // Разбойник
+            
+            addParent('nbrg'); // Грабитель к
+            addChild('n003', 11); // Грабитель
+            
+            addParent('nass'); // Убийца к
+            addChild('n005', 11); // Убийца
+            
+            addParent('nenf'); // Мародер к
+            addChild('n006', 11); // Мародер
+            
+            addParent('nbld'); // Король Воров к
+            addChild('n007', 11); // Король Воров
+            
+            // MAGES
+            
+            addParent('nwiz'); // Ученик волшебника к
+            addChild('n00E', 11); // Ученик волшебника
+            
+            addParent('nwzr'); // Маг Разбойник к
+            addChild('n007', 11); // Маг Разбойник
+            
+            
+            addParent('nwzg'); // Маг Отступник к
+            addChild('n00Y', 1); // Маг Отступник подпитыватель
+            addChild('n00F', 5); // Маг Отступник
+            addChild('n00E', 5); // Маг Разбойник
+
+            addParent('nwzd'); // Черный Маг к
+            addChild('n00J', 2); // Свита Черного Мага
+            addChild('n00G', 4); // Свита Черного Мага
+            addChild('n00F', 5); // Маг Отступник
+
+            // HERETICS
+            
+            addParent('nhfp'); // Отступник к
+            addChild('n00K', 11); // Отступник
+            
+            addParent('nhds'); // Предатель к
+            addChild('n00L', 11); // Предатель
+            
+            addParent('nhhr'); // Еретик к
+            addChild('n00M', 11); // Еретик
+
+            // GOLEMS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('ngrk'); // Глиняный голем к
+            addChild('n00H', 11); // Глиняный голем
+            
+            addParent('ngst'); // Каменный голем к
+            addChild('n00I', 2); // Каменный голем
+            
+            // KOBOLDS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nkob'); // Кобольд к
+            addChild('n00Q', 11); // Кобольд
+            
+            addParent('nkog'); // Кобольд рудознатец к
+            addChild('n00R', 11); // Кобольд рудознатец
+            
+            addParent('nkot'); // Кобольд рудокоп к
+            addChild('n00S', 11); // Кобольд рудокоп
+            
+            addParent('nkol'); // Кобольд маркшейдер к
+            addChild('n00T', 9); // Кобольд маркшейдер
+            addChild('n00U', 1); // Кобольд защитник 1
+            addChild('n00X', 1); // Кобольд защитник 2
+            
+            // MORLOCKS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nmrl'); // Ядовитый морлок к
+            addChild('n00Z', 11); // Ядовитый морлок
+            
+            addParent('nmrr'); // Морлок охотник к
+            addChild('n010', 11); // Морлок охотник
+            
+            addParent('nmrm'); // Морлок следопыт к
+            addChild('n013', 11); // Морлок следопыт
+            
+            // OGRES////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nogr'); // Огр воин к
+            addChild('n015', 11); // Огр воин
+            
+            addParent('nomg'); // Огр маг к
+            addChild('n017', 5); // Огр маг
+            addChild('n015', 6); // Огр воин
+            
+            addParent('nogm'); // Огр солдат к
+            addChild('n018', 3); // Огр солдат
+            addChild('n017', 4); // Огр маг
+            addChild('n015', 4); // Огр воин
+            
+            addParent('nogl'); // Командир огров к
+            addChild('n019', 2); // Огр телохранитель 
+            addChild('n018', 2); // Огр солдат
+            addChild('n017', 2); // Огр маг
+            addChild('n015', 5); // Огр воин
+            
+            // TROLLS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nfsp'); // Жрец лесных троллей к
+            addChild('n01A', 11); // Жрец лесных троллей
+            
+            addParent('nftr'); // Лесной тролль к
+            addChild('n01B', 11); // Лесной тролль
+            
+            addParent('nftt'); // Лесной тролль охотник к
+            addChild('n01D', 11); // Лесной тролль охотник
+            
+            addParent('nftb'); // Лесной тролль берсерк к
+            addChild('n01E', 11); // Лесной тролль берсерк
+            
+            addParent('nfsh'); // Шаман лесных троллей к
+            addChild('n01F', 5); // Шаман лесных троллей
+            addChild('n01A', 6); // Жрец лесных троллей
+            
+            addParent('nftk'); // Вождь лесных троллей к
+            addChild('n01G', 2); // Страж лесных троллей
+            addChild('n01E', 5); // Лесной тролль берсерк
+            addChild('n01F', 4); // Шаман лесных троллей
+            
+            // GNOLLS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('ngna'); // Гнолл карманник к
+            addChild('n01J', 11); // Гнолл карманник
+            
+            addParent('ngns'); // Гнолл убийца к
+            addChild('n01I', 11); // Гнолл убийца
+            
+            addParent('ngno'); // Гнолл к
+            addChild('n01H', 11); // Гнолл
+            
+            addParent('ngnb'); // Гнолл громила к
+            addChild('n01K', 11); // Гнолл громила
+            
+            addParent('ngnw'); // Гнолл тюремщик к
+            addChild('n01L', 11); // Гнолл тюремщик
+            
+            addParent('ngnv'); // Гнолл надзиратель к
+            addChild('n01M', 11); // Гнолл телохранитель
+            
+            // DRAGONS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nrdk'); // Красный дракончик к
+            addChild('n01V', 11); // Красный дракончик
+            
+            addParent('nrdr'); // Красный дракон к
+            addChild('n021', 2); // Красный дракон
+            
+            addParent('nbdr'); //  Черный дракончик к
+            addChild('n01W', 11); // Черный дракончик
+            
+            addParent('nbdk'); // Черный дракон к
+            addChild('n022', 2); // Черный дракон
+            
+            addParent('nbzw'); //  Бронзовый дракончик к
+            addChild('n01X', 11); // Бронзовый дракончик
+            
+            addParent('nbzk'); // Бронзовый дракон к
+            addChild('n023', 2); // Бронзовый дракон
+            
+            addParent('ngrw'); //  Зеленый дракончик к
+            addChild('n01Y', 11); // Зеленый дракончик
+            
+            addParent('ngdk'); // Зеленый дракон к
+            addChild('n024', 2); // Зеленый дракон
+            
+            addParent('nadw'); //  Синий дракончик к
+            addChild('n01Z', 11); // Синий дракончик
+            
+            addParent('nadk'); // Синий дракон к
+            addChild('n025', 2); // Синий дракон
+            
+            addParent('nnht'); //  Адский дракончик к
+            addChild('n020', 11); // Адский дракончик
+            
+            addParent('nndk'); // Адский дракон к
+            addChild('n026', 2); // Адский дракон
+            
+            //  SKELETONS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('nska'); // Скелет лучник к
+            addChild('n027', 11); // Скелет лучник
+            
+            addParent('nskm'); // Скелет снайпер к
+            addChild('n029', 11); // Скелет снайпер
+            
+            addParent('nskf'); // Адский лучник к
+            addChild('n028', 11); // Адский лучник
+            
+            addParent('nskg'); // Гиганский скелет воин к
+            addChild('n02A', 5); // Гиганский скелет воин
+            addChild('n02B', 6); // Гиганский скелет воин
+            
+            //  MUTANTS////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            addParent('n02E'); // Даларанский мутант малый к
+            addChild('n02C', 11); // Даларанский мутант малый
+            
+            addParent('n02I'); // Даларанский мутант средний к
+            addChild('n02D', 11); // Даларанский мутант средний
+            
+            addParent('ndmu'); // Даларанский мутант альфа к
+            addChild('n02D', 11); // Даларанский мутант средний
+            
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            // add initial values
+            GroupClear(g);
+            GroupEnumUnitsInRect(g, GetWorldBounds(), null);
+            ForGroup(g, function() {
+                udg_TriggerinUnit = GetEnumUnit();
+                SetSquadParent(udg_TriggerinUnit);
+                ///
                 
+            });
+        }
+    }
+//! endzinc
             });
         }
     }
