@@ -1,1 +1,1 @@
-# wc3-squadt
+# wc3-squad
