@@ -1,10 +1,11 @@
+native UnitAlive takes unit u returns boolean
 //! zinc
     library Squad {
         unit child;
         real x, y;
         location loc;
         group g = CreateGroup(), parents = CreateGroup();
-        hashtable ht;
+        hashtable ht = InitHashtable();
         integer index, parentId;
         player parentOwner;
     
@@ -53,7 +54,43 @@
             SaveInteger(ht, parentId, index + 1, count);
         }
 
+        function createChild(unit parent, integer childUnit) {
+
+        }
+
         function onInit() {
+            integer i;
+            trigger dt = CreateTrigger();
+            for (0 <= i < bj_MAX_PLAYER_SLOTS) {
+                TriggerRegisterPlayerUnitEvent(dt, Player(i), EVENT_PLAYER_UNIT_DEATH, null);
+            }
+            TriggerAddAction( dt, function() {
+                
+                //if ( IsUnitInGroup(du, udg_Squad[GetUnitUserData(du)]) ) then
+                //if ( not IsUnitInGroup(du, udg_Commanders) && GetUnitLifePercent(parent) > 0.00 ) then
+                //set udg_TempPoint = GetUnitLoc(parent)
+                //call CreateNUnitsAtLoc( 1, GetUnitTypeId(du), GetOwningPlayer(parent), udg_TempPoint, bj_UNIT_FACING )
+                //call RemoveLocation( udg_TempPoint )
+                //call SetUnitColor( GetLastCreatedUnit(), GetPlayerColor(GetOwningPlayer(parent)) )
+                //call ConditionalTriggerExecute( gg_trg_Colours_detect )
+                //call ConditionalTriggerExecute( gg_trg_Undead_buf_detect )
+                //call SetUnitUserData( GetLastCreatedUnit(), GetUnitUserData(du) )
+                //call GroupAddUnitSimple( GetLastCreatedUnit(), udg_Squad[GetUnitUserData(du)] )
+                //call GroupAddUnitSimple( GetLastCreatedUnit(), udg_SqUniNoCommanderr[GetUnitUserData(du)] )
+                //call IssueTargetOrder( GetLastCreatedUnit(), "smart", parent )
+                //call IssueTargetOrder( GetLastReplacedUnitBJ(), "polymorph", GetLastCreatedUnit() )
+                //call SetUnitMoveSpeed( GetLastCreatedUnit(), GetUnitDefaultMoveSpeed(parent) )
+                //call GroupRemoveUnitSimple( du, udg_SqUniNoCommanderr[GetUnitUserData(du)] )
+                //call GroupRemoveUnitSimple( du, udg_Squad[GetUnitUserData(du)] )
+                //call SetUnitUseFoodBJ( false, GetEnumUnit() )
+                //call SetUnitUseFoodBJ( false, GetLastCreatedUnit() )
+
+                //call UnitAddAbilityBJ( 'A0DH', GetLastCreatedUnit() )
+                //call IssueImmediateOrder( GetLastCreatedUnit(), "metamorphosis" )
+                //call UnitRemoveAbilityBJ( 'A0DH', GetLastCreatedUnit() )
+
+            });
+            dt = null;
             
             // HUMAN////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // WC.
@@ -471,10 +508,7 @@
             GroupClear(g);
             GroupEnumUnitsInRect(g, GetWorldBounds(), null);
             ForGroup(g, function() {
-                udg_TriggerinUnit = GetEnumUnit();
-                SetSquadParent(udg_TriggerinUnit);
-                ///
-                
+                SetSquadParent(GetEnumUnit());
             });
         }
     }

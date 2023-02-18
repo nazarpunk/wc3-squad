@@ -1,0 +1,86 @@
+function Trig_Die_CammandersAndSquards_Copy_Func002Func001Func002A takes nothing returns nothing
+    if ( GetUnitTypeId(GetEnumUnit()) != 'u000' ) then
+        call GroupAddUnitSimple( GetEnumUnit(), udg_SSqLiveUn[GetUnitUserData(GetDyingUnit())] )
+    endif
+endfunction
+
+function Trig_Die_CammandersAndSquards_Copy_Func002Func001Func005Func001A takes nothing returns nothing
+    call RemoveUnit( GetEnumUnit() )
+        set udg_Units = ( udg_Units + 1 )
+endfunction
+
+function Trig_Die_CammandersAndSquards_Copy_Actions takes nothing returns nothing
+    local unit du = GetDyingUnit()
+
+    // Die Commanders
+    if ( IsUnitInGroup(du, udg_Commanders) == true ) then
+        // \\\\\\\\\\\\DEATH DETECTOR\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        call ForGroupBJ( udg_SqUniNoCommanderr[GetUnitUserData(du)], function Trig_Die_CammandersAndSquards_Copy_Func002Func001Func002A )
+        // \\\\\\\\\\\\DEATH DETECTOR\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        if ( CountUnitsInGroup(udg_SSqLiveUn[GetUnitUserData(du)]) > 0 ) then
+            call GroupRemoveUnitSimple( du, udg_Commanders )
+            call GroupRemoveUnitSimple( du, udg_SqUnCOMMANDER[GetUnitUserData(du)] )
+            call GroupRemoveUnitSimple( du, udg_Squad[GetUnitUserData(du)] )
+            call StoreUnitBJ( du, "comander", "CategoryComanders", GetLastCreatedGameCacheBJ() )
+            set udg_TempPoint = GetUnitLoc(GroupPickRandomUnit(udg_Squad[GetUnitUserData(du)]))
+            call RestoreUnitLocFacingAngleBJ( "Comander", "CategoryComanders", GetLastCreatedGameCacheBJ(), GetOwningPlayer(du), udg_TempPoint, GetUnitFacing(du) )
+            call RemoveLocation( udg_TempPoint )
+            // SELECT
+            if ( IsUnitSelected(du, GetOwningPlayer(du)) ) then
+                call SelectUnitAddForPlayer( GetLastRestoredUnitBJ(), GetOwningPlayer(du) )
+            else
+            endif
+            call SetUnitLifePercentBJ( GetLastRestoredUnitBJ(), 10.00 )
+            call SetUnitManaPercentBJ( GetLastRestoredUnitBJ(), GetUnitManaPercent(du) )
+            call SetUnitUserData( GetLastRestoredUnitBJ(), GetUnitUserData(du) )
+            call GroupAddUnitSimple( GetLastRestoredUnitBJ(), udg_Squad[GetUnitUserData(du)] )
+            call GroupAddUnitSimple( GetLastRestoredUnitBJ(), udg_SqUnCOMMANDER[GetUnitUserData(du)] )
+            call GroupAddUnitSimple( GetLastRestoredUnitBJ(), udg_Commanders )
+            // Magic Sq DammyM
+        else
+        endif
+        if ( CountUnitsInGroup(udg_SSqLiveUn[GetUnitUserData(du)]) <= 0 ) then
+            call ForGroupBJ( udg_SqUniNoCommanderr[GetUnitUserData(du)], function Trig_Die_CammandersAndSquards_Copy_Func002Func001Func005Func001A )
+        else
+        endif
+        call GroupClear( udg_SSqLiveUn[GetUnitUserData(du)] )
+        call IssuePointOrderLoc( GetLastRestoredUnitBJ(), "smart", GetUnitRallyPoint(GroupPickRandomUnit(udg_SqUniNoCommanderr[GetUnitUserData(GetLastRestoredUnitBJ())])) )
+        call FlushStoredMissionBJ( "CategoryComanders", GetLastCreatedGameCacheBJ() )
+        // Magic Sq
+    endif
+
+
+    // Die squards
+    if ( IsUnitInGroup(du, udg_Squad[GetUnitUserData(du)]) ) then
+        if ( not IsUnitInGroup(du, udg_Commanders) && GetUnitLifePercent(GroupPickRandomUnit(udg_SqUnCOMMANDER[GetUnitUserData(du)])) > 0.00 ) then
+            set udg_TempPoint = GetUnitLoc(GroupPickRandomUnit(udg_SqUnCOMMANDER[GetUnitUserData(du)]))
+            call CreateNUnitsAtLoc( 1, GetUnitTypeId(du), GetOwningPlayer(GroupPickRandomUnit(udg_SqUnCOMMANDER[GetUnitUserData(du)])), udg_TempPoint, bj_UNIT_FACING )
+            call RemoveLocation( udg_TempPoint )
+            call SetUnitColor( GetLastCreatedUnit(), GetPlayerColor(GetOwningPlayer(GroupPickRandomUnit(udg_SqUnCOMMANDER[GetUnitUserData(du)]))) )
+            call ConditionalTriggerExecute( gg_trg_Colours_detect )
+            call ConditionalTriggerExecute( gg_trg_Undead_buf_detect )
+            call SetUnitUserData( GetLastCreatedUnit(), GetUnitUserData(du) )
+            call GroupAddUnitSimple( GetLastCreatedUnit(), udg_Squad[GetUnitUserData(du)] )
+            call GroupAddUnitSimple( GetLastCreatedUnit(), udg_SqUniNoCommanderr[GetUnitUserData(du)] )
+            call IssueTargetOrder( GetLastCreatedUnit(), "smart", GroupPickRandomUnit(udg_SqUnCOMMANDER[GetUnitUserData(du)]) )
+            call IssueTargetOrder( GetLastReplacedUnitBJ(), "polymorph", GetLastCreatedUnit() )
+            call SetUnitMoveSpeed( GetLastCreatedUnit(), GetUnitDefaultMoveSpeed(GroupPickRandomUnit(udg_SqUnCOMMANDER[GetUnitUserData(du)])) )
+            call GroupRemoveUnitSimple( du, udg_SqUniNoCommanderr[GetUnitUserData(du)] )
+            call GroupRemoveUnitSimple( du, udg_Squad[GetUnitUserData(du)] )
+            call SetUnitUseFoodBJ( false, GetEnumUnit() )
+            call SetUnitUseFoodBJ( false, GetLastCreatedUnit() )
+            // //////////////////////DEATHSTAGE//////////////////////////////////////////////////////////////////////////////////////////////////////////
+            call UnitAddAbilityBJ( 'A0DH', GetLastCreatedUnit() )
+            call IssueImmediateOrder( GetLastCreatedUnit(), "metamorphosis" )
+            call UnitRemoveAbilityBJ( 'A0DH', GetLastCreatedUnit() )
+            // //////////////////////DEATHSTAGE//////////////////////////////////////////////////////////////////////////////////////////////////////////
+        endif
+    endif
+endfunction
+
+//===========================================================================
+function InitTrig_Die_CammandersAndSquards_Copy takes nothing returns nothing
+    set gg_trg_Die_CammandersAndSquards_Copy = CreateTrigger(  )
+    call TriggerRegisterAnyUnitEventBJ( gg_trg_Die_CammandersAndSquards_Copy, EVENT_PLAYER_UNIT_DEATH )
+    call TriggerAddAction( gg_trg_Die_CammandersAndSquards_Copy, function Trig_Die_CammandersAndSquards_Copy_Actions )
+endfunction
