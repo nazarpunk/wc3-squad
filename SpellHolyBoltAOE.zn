@@ -2,6 +2,7 @@
 native UnitAlive(unit id) -> boolean; // Подключаем единственно верную функцию проверки жив ли юнит
 library SpellHolyBoltAOE {
     /* === Создаёмм необходимые переменные, что упростит нам реализацию заклинания === */
+    
     group g = CreateGroup(); // Используем одну группу для всех перебров, что не заморачиваться с удалением
     unit caster, target;
     real x, y, range, heal, damage;
@@ -9,8 +10,8 @@ library SpellHolyBoltAOE {
     integer level;
 
     /* === Настройки заклинания === */    
+    
     constant integer abilityRawcode = 'A000'; // Способность для героя
-    constant boolean IsDetectCaster = true; // Применять ли заклинание на кастере
     
     // Что делать с дружественной нежитью
     constant integer allyUndeadAction = 0; // 0 - ничего, 1 - лечить, 2 - наносить урон
@@ -25,7 +26,7 @@ library SpellHolyBoltAOE {
     
     // Указываем радиус захвата заклинания
     function getRange(integer level) -> real {
-        integer range[];
+        real range[];
         range[1] = 100; // 1 уровень
         range[2] = 200; // 2 уровень
         range[3] = 300; // 3 уровень
@@ -34,7 +35,7 @@ library SpellHolyBoltAOE {
     
     // Указываем количество вылеченных хитпоинтов
     function getHeal(integer level) -> real {
-        integer heal[];
+        real heal[];
         heal[1] = 200; // 1 уровень
         heal[2] = 400; // 2 уровень
         heal[3] = 600; // 3 уровень
@@ -43,25 +44,23 @@ library SpellHolyBoltAOE {
     
     // Указываем количество нанесённого урона
     function getDamage(integer level) -> real {
-        integer damage[];
+        real damage[];
         damage[1] = 100; // 1 уровень
         damage[2] = 200; // 2 уровень
         damage[3] = 300; // 3 уровень
         return damage[level];
     }
 
-    //UNIT_TYPE_FLYING - Тип передвижения: Летающий
-    //UNIT_TYPE_GROUND - Тип передвижения: Пеший, НЕ Парящий
-    
     // На кого действует заклинание
     function isTarget() -> boolean {
         if (IsUnitType(u, UNIT_TYPE_STRUCTURE)) return false; // Отсеиваем здания
         if (IsUnitType(u, UNIT_TYPE_MECHANICAL)) return false; // Отсеиваем механических юнитов
+        if (IsUnitType(u, UNIT_TYPE_FLYING)) return false; // Отсеиваем летающих юнитов
         if (caster == target) return false; // Отсеиваем кастера
-            
     }
     
-    /* === Реализуем заклинание  === */
+    /* === Реализация заклинания  === */
+    
     function onInit() {
         trigger t = CreateTrigger();
         integer i;
@@ -88,7 +87,7 @@ library SpellHolyBoltAOE {
             ForGroup(g, function() {
                 target = GetEnumUnit();
                 if (!UnitAlive(target)) return; // Отсеиваем мёртвых юнитов
-                IsUnitInRangeXY(target, x + range, y); // Отсеиваем юнитов по расстоянию функцией, которая учитывает радиус юнита
+                if (!IsUnitInRangeXY(target, x + range, y)) return; // Отсеиваем юнитов по расстоянию функцией, которая учитывает радиус юнита
                 isEnemy = IsPlayerEnemy(GetOwningPlayer(caster), GetOwningPlayer(target));
                 isUndead = IsUnitType(target, UNIT_TYPE_UNDEAD);
                 if (isTarget()) return; // Отсеиваем цели
