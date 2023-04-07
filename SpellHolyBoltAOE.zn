@@ -11,7 +11,7 @@ library SpellHolyBoltAOE {
 
     /* === Настройки заклинания === */    
     
-    constant integer abilityRawcode = 'A000'; // Способность для героя
+    constant integer abilityId = 'A000'; // Способность для героя
     
     // Что делать с дружественной нежитью
     constant integer allyUndeadAction = 0; // 0 - ничего, 1 - лечить, 2 - наносить урон
@@ -57,6 +57,7 @@ library SpellHolyBoltAOE {
         if (IsUnitType(u, UNIT_TYPE_MECHANICAL)) return false; // Отсеиваем механических юнитов
         if (IsUnitType(u, UNIT_TYPE_FLYING)) return false; // Отсеиваем летающих юнитов
         if (caster == target) return false; // Отсеиваем кастера
+        return true;
     }
     
     /* === Реализация заклинания  === */
@@ -70,8 +71,8 @@ library SpellHolyBoltAOE {
             TriggerRegisterPlayerUnitEvent(t, Player(i), EVENT_PLAYER_UNIT_SPELL_EFFECT, null);
         }
         TriggerAddAction(t, function() {
-            if (abilityRawcode != GetSpellAbilityId()) return; // Используем return чтоб не использовать Condition
-            level = GetUnitAbilityLevel(caster, abilityRawcode);
+            if (abilityId != GetSpellAbilityId()) return; // Используем return чтоб не использовать Condition
+            level = GetUnitAbilityLevel(caster, abilityId);
 
             GroupClear(g); // Не забываем очистить группу, чтоб не зацепить прошлых юнитов
 
@@ -87,7 +88,7 @@ library SpellHolyBoltAOE {
             ForGroup(g, function() {
                 target = GetEnumUnit();
                 if (!UnitAlive(target)) return; // Отсеиваем мёртвых юнитов
-                if (!IsUnitInRangeXY(target, x + range, y)) return; // Отсеиваем юнитов по расстоянию функцией, которая учитывает радиус юнита
+                if (!IsUnitInRangeXY(target, x, y)) return; // Отсеиваем юнитов по расстоянию функцией, которая учитывает радиус юнита
                 isEnemy = IsPlayerEnemy(GetOwningPlayer(caster), GetOwningPlayer(target));
                 isUndead = IsUnitType(target, UNIT_TYPE_UNDEAD);
                 if (isTarget()) return; // Отсеиваем цели
@@ -109,7 +110,6 @@ library SpellHolyBoltAOE {
                     (allyUndeadAction == 2 && isUndead && !isEnemy) ||
                     (enemyNoUndeadAction == 2 && !isUndead && isEnemy)
                     ) UnitDamageTarget(caster, target, damage, true, false, attackType, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS);
-                    
             });
         });
     }
