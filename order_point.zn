@@ -1,0 +1,126 @@
+function Trig_Work_Resourses_Conditions takes nothing returns boolean
+    if ( not ( IsUnitInGroup(GetTriggerUnit(), udg_Commanders) == true ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func003Func001Func001C takes nothing returns boolean
+    if ( ( GetIssuedOrderIdBJ() == String2OrderIdBJ("smart") ) ) then
+        return true
+    endif
+    return false
+endfunction
+
+function Trig_Work_Resourses_Func003Func001Func002Func001C takes nothing returns boolean
+    if ( not ( GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit()) ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func003Func001C takes nothing returns boolean
+    if ( not Trig_Work_Resourses_Func003Func001Func001C() ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func003Func002Func001C takes nothing returns boolean
+    if ( not ( GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit()) ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func003C takes nothing returns boolean
+    if ( not ( GetIssuedOrderIdBJ() == String2OrderIdBJ(GetDestructableName(GetOrderTargetDestructable())) ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func004Func001Func001C takes nothing returns boolean
+    if ( ( GetIssuedOrderIdBJ() == String2OrderIdBJ("smart") ) ) then
+        return true
+    endif
+    if ( ( GetIssuedOrderIdBJ() == String2OrderIdBJ("move") ) ) then
+        return true
+    endif
+    return false
+endfunction
+
+function Trig_Work_Resourses_Func004Func001Func002Func001C takes nothing returns boolean
+    if ( not ( GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit()) ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func004Func001Func003Func001C takes nothing returns boolean
+    if ( not ( GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit()) ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func004Func001C takes nothing returns boolean
+    if ( not Trig_Work_Resourses_Func004Func001Func001C() ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func004Func002Func001C takes nothing returns boolean
+    if ( not ( GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit()) ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func004Func003Func001C takes nothing returns boolean
+    if ( not ( GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit()) ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Func004C takes nothing returns boolean
+    if ( not ( GetIssuedOrderIdBJ() == String2OrderIdBJ("harvest") ) ) then
+        return false
+    endif
+    return true
+endfunction
+
+function Trig_Work_Resourses_Actions takes nothing returns nothing
+    call DisableTrigger( GetTriggeringTrigger() )
+    if ( Trig_Work_Resourses_Func003C() ) then
+        call GroupTargetOrder( udg_Squad[GetUnitUserData(GetTriggerUnit())], "smart", GetOrderTargetDestructable() )
+    else
+        if ( Trig_Work_Resourses_Func003Func001C() ) then
+            call GroupTargetOrder( udg_Squad[GetUnitUserData(GetTriggerUnit())], "smart", GetOrderTargetDestructable() )
+        else
+        endif
+    endif
+    if ( Trig_Work_Resourses_Func004C() ) then
+        call GroupTargetOrder( udg_Squad[GetUnitUserData(GetTriggerUnit())], "smart", GetOrderTargetUnit() )
+        call GroupTargetOrder( udg_Squad[GetUnitUserData(GetTriggerUnit())], "harvest", GetOrderTargetDestructable() )
+    else
+        if ( Trig_Work_Resourses_Func004Func001C() ) then
+            call GroupTargetOrder( udg_Squad[GetUnitUserData(GetTriggerUnit())], "smart", GetOrderTargetUnit() )
+            call GroupTargetOrder( udg_Squad[GetUnitUserData(GetTriggerUnit())], "board", GetOrderTargetUnit() )
+        else
+        endif
+    endif
+    // ABILITES
+    call EnableTrigger( GetTriggeringTrigger() )
+endfunction
+
+//===========================================================================
+function InitTrig_Work_Resourses takes nothing returns nothing
+    set gg_trg_Work_Resourses = CreateTrigger(  )
+    call TriggerRegisterAnyUnitEventBJ( gg_trg_Work_Resourses, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER )
+    call TriggerAddCondition( gg_trg_Work_Resourses, Condition( function Trig_Work_Resourses_Conditions ) )
+    call TriggerAddAction( gg_trg_Work_Resourses, function Trig_Work_Resourses_Actions )
+endfunction
+

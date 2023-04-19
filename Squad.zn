@@ -29,9 +29,10 @@ native UnitAlive takes unit u returns boolean
                 childId = LoadInteger(ht, parentId, i * 2);
                 childCount = LoadInteger(ht, parentId, i * 2 + 1);
                 for (1 <= k <= childCount) {
-                    child = CreateUnit(parentOwner, childId, GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(x - 100.00, x + 100.00), GetRandomReal(0, 360));
+                    child = CreateUnit(parentOwner, childId, GetRandomReal(x - 100, x + 100), GetRandomReal(y - 100, y + 100), GetRandomReal(0, 360));
                     
-                    SetUnitOwner( child, Player(GetPlayerId(parentOwner) + 12), false );
+                    SetUnitOwner(child, Player(GetPlayerId(parentOwner) + 12), false );
+                    SetUnitColor(child, GetPlayerColor(parentOwner));
         
                     SetUnitUseFood(child, false);
                     loc = GetUnitRallyPoint(parent);

@@ -1,0 +1,37 @@
+//! zinc
+    library SpellTimer {
+        constant real tick = .01;
+        real elapsed = 0;
+        integer counter = 0;
+        timer tmr = CreateTimer();
+
+        function onInit() {
+            t = CreateTrigger();
+            for (0 <= i < bj_MAX_PLAYER_SLOTS) {
+                TriggerRegisterPlayerUnitEvent(t, Player(i), EVENT_PLAYER_UNIT_SPELL_CAST, null);
+            }
+            TriggerAddAction(t, function() {
+                local real time;
+
+                if (counter == 0) {
+                    TimerStart(tmr, tick, true, function() {
+                        elapsed += tick;
+                    });
+                }
+                counter += 1;
+
+                if (counter < 3) {
+                    return 
+                };
+
+                PauseTimer(tmr);
+                time = elapsed;
+                elapsed = 0;
+                counter = 0;
+                BJDebugMsg("TimeElapsed: " + R2S(time));
+            });
+
+            t = null;
+        }
+    }  
+//! endzinc

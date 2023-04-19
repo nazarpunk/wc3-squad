@@ -1,0 +1,407 @@
+function Trig_No_Target_Func003Func002Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func003Func003Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func006Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func007Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func009Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func010Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("unflamingarrows") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func010Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func010C takes nothing returns boolean
+    return Trig_No_Target_Func010Func001C()
+endfunction
+
+function Trig_No_Target_Func012Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func013Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func015Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func015C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("innerfireon")
+endfunction
+
+function Trig_No_Target_Func016Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func016C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("innerfireoff")
+endfunction
+
+function Trig_No_Target_Func018Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func018C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("slowon")
+endfunction
+
+function Trig_No_Target_Func019Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func019C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("slowoff")
+endfunction
+
+function Trig_No_Target_Func021Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func021C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("autodispelon")
+endfunction
+
+function Trig_No_Target_Func022Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func022C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("autodispeloff")
+endfunction
+
+function Trig_No_Target_Func024Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("bloodluston") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func024Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func024C takes nothing returns boolean
+    return Trig_No_Target_Func024Func001C()
+endfunction
+
+function Trig_No_Target_Func025Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("bloodlustoff") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func025Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func025C takes nothing returns boolean
+    return Trig_No_Target_Func025Func001C()
+endfunction
+
+function Trig_No_Target_Func027Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("coldarrows") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func027Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func027C takes nothing returns boolean
+    return Trig_No_Target_Func027Func001C()
+endfunction
+
+function Trig_No_Target_Func028Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("uncoldarrows") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func028Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func028C takes nothing returns boolean
+    return Trig_No_Target_Func028Func001C()
+endfunction
+
+function Trig_No_Target_Func030Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("blackarrowon") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func030Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func030C takes nothing returns boolean
+    return Trig_No_Target_Func030Func001C()
+endfunction
+
+function Trig_No_Target_Func031Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("blackarrowoff") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func031Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func031C takes nothing returns boolean
+    return Trig_No_Target_Func031Func001C()
+endfunction
+
+function Trig_No_Target_Func033Func001C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("cannibalize") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)
+endfunction
+
+function Trig_No_Target_Func033Func002Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func033C takes nothing returns boolean
+    return Trig_No_Target_Func033Func001C()
+endfunction
+
+function Trig_No_Target_Func035Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func035C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("raisedeadon")
+endfunction
+
+function Trig_No_Target_Func036Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func036C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("raisedeadoff")
+endfunction
+
+function Trig_No_Target_Func038Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func038C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("curseon")
+endfunction
+
+function Trig_No_Target_Func039Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func039C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("curseoff")
+endfunction
+
+function Trig_No_Target_Func041Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func041C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("webon")
+endfunction
+
+function Trig_No_Target_Func042Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func042C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("weboff")
+endfunction
+
+function Trig_No_Target_Func044Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func044C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("burrow")
+endfunction
+
+function Trig_No_Target_Func045Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func045C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("unburrow")
+endfunction
+
+function Trig_No_Target_Func047Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func047C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("avengerform")
+endfunction
+
+function Trig_No_Target_Func049Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func049C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("stoneform")
+endfunction
+
+function Trig_No_Target_Func050Func001Func001C takes nothing returns boolean
+    return GetUnitUserData(GetTriggerUnit()) == GetUnitUserData(GetEnumUnit())
+endfunction
+
+function Trig_No_Target_Func050C takes nothing returns boolean
+    return GetIssuedOrderIdBJ() == String2OrderIdBJ("unstoneform")
+endfunction
+
+function Trig_No_Target_Actions takes nothing returns nothing
+    call DisableTrigger( GetTriggeringTrigger() )
+
+    // stop/hold
+    if ( GetIssuedOrderIdBJ() == String2OrderIdBJ("stop") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders) ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "stop" )
+    else
+        if ( GetIssuedOrderIdBJ() == String2OrderIdBJ("holdposition") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders) ) then
+            call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "holdposition" )
+        endif
+    endif
+    // ABILITES
+
+    // Укрыться за щитом
+    if ( GetIssuedOrderIdBJ() == String2OrderIdBJ("defend") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders)) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "defend" )
+    endif
+    if ( GetIssuedOrderIdBJ() == String2OrderIdBJ("undefend") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders) ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "undefend" )
+    endif
+
+    // Огненные стрелы
+    if ( GetIssuedOrderIdBJ() == String2OrderIdBJ("flamingarrows") and IsUnitInGroup(GetTriggerUnit(), udg_Commanders) ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "flamingarrows" )
+    endif
+    if ( Trig_No_Target_Func010C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "unflamingarrows" )
+    endif
+
+    // Исцеление
+    if ( GetIssuedOrderIdBJ() == String2OrderIdBJ("healon") ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "healon" )
+    endif
+    if ( GetIssuedOrderIdBJ() == String2OrderIdBJ("healoff") ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "healoff" )
+    endif
+
+    // Духовное пламя
+    if ( Trig_No_Target_Func015C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "innerfireon" )
+    endif
+    if ( Trig_No_Target_Func016C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "innerfireoff" )
+    endif
+
+    // Замедление
+    if ( Trig_No_Target_Func018C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "slowon" )
+    endif
+    if ( Trig_No_Target_Func019C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "slowoff" )
+    endif
+    
+    // Рассеить чары
+    if ( Trig_No_Target_Func021C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "autodispelon" )
+    endif
+    if ( Trig_No_Target_Func022C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "autodispeloff" )
+    endif
+    
+    // Кровожадность
+    if ( Trig_No_Target_Func024C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "bloodluston" )
+    endif
+    if ( Trig_No_Target_Func025C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "bloodlustoff" )
+    endif
+    
+    // Ледяные стрелы
+    if ( Trig_No_Target_Func027C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "coldarrows" )
+    endif
+    if ( Trig_No_Target_Func028C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "uncoldarrows" )
+    endif
+    
+    // Черная стрела
+    if ( Trig_No_Target_Func030C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "blackarrowon" )
+    endif
+    if ( Trig_No_Target_Func031C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "blackarrowoff" )
+    endif
+    
+    // Канибализм
+    if ( Trig_No_Target_Func033C() ) then
+        call GroupImmediateOrder( udg_Squad[GetUnitUserData(GetOrderedUnit())], "cannibalize" )
+    endif
+    
+    // Оживление мертвых
+    if ( Trig_No_Target_Func035C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "raisedeadon" )
+    endif
+    if ( Trig_No_Target_Func036C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "raisedeadoff" )
+    endif
+    
+    // Проклятье
+    if ( Trig_No_Target_Func038C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "curseon" )
+    endif
+    if ( Trig_No_Target_Func039C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "curseoff" )
+    endif
+    
+    // Паутина
+    if ( Trig_No_Target_Func041C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "webon" )
+    endif
+    if ( Trig_No_Target_Func042C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "weboff" )
+    endif
+    
+    // Закопаться
+    if ( Trig_No_Target_Func044C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "burrow" )
+    endif
+    if ( Trig_No_Target_Func045C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "unburrow" )
+    endif
+    // Сфинкс
+    if ( Trig_No_Target_Func047C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "avengerform" )
+    endif
+    // Статуя
+    if ( Trig_No_Target_Func049C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "stoneform" )
+    endif
+    if ( Trig_No_Target_Func050C() ) then
+        call GroupImmediateOrder( udg_SqUniNoCommanderr[GetUnitUserData(GetTriggerUnit())], "unstoneform" )
+    endif
+    call EnableTrigger( GetTriggeringTrigger() )
+endfunction
+
+function Trig_No_Target_Conditions takes nothing returns boolean
+    return IsUnitInGroup(GetTriggerUnit(), udg_SqUnCOMMANDER[GetUnitUserData(GetTriggerUnit())])
+endfunction
+
+//===========================================================================
+function InitTrig_No_Target takes nothing returns nothing
+    set gg_trg_No_Target = CreateTrigger(  )
+    call TriggerRegisterAnyUnitEventBJ( gg_trg_No_Target, EVENT_PLAYER_UNIT_ISSUED_ORDER )
+    call TriggerAddCondition( gg_trg_No_Target, Condition( function Trig_No_Target_Conditions ) )
+    call TriggerAddAction( gg_trg_No_Target, function Trig_No_Target_Actions )
+endfunction
+
